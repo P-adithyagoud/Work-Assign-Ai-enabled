@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Projects & Assignments - ProjectAssign{% endblock %}
+{% block section_title %}Allocation{% endblock %}
+{% block page_title %}Projects & Team Generation{% endblock %}
+
+{% block content %}
+<div class="projects-layout-grid">
+    <!-- Left Column: Input Form -->
+    <div class="project-form-section card">
+        <div class="panel-header" style="border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 20px;">
+            <h3 class="panel-title">Generate Team Assignment</h3>
+            <p class="text-muted" style="margin-top: 4px; font-size: 13px;">Specify project dimensions to run the resource allocation scoring engine.</p>
+        </div>
+        
+        <form action="{{ url_for('projects.new_project') }}" method="POST" enctype="multipart/form-data" class="auth-form">
+            <!-- Project Name -->
+            <div class="form-group">
+                <label for="name">Project Name</label>
+                <div class="input-wrapper">
+                    <input type="text" id="name" name="name" placeholder="e.g. Cloud Infrastructure Migration" required>
+                </div>
+            </div>
+            
+            <!-- Description -->
+            <div class="form-group">
+                <label for="description">Project Description</label>
+                <div class="input-wrapper">
+                    <textarea id="description" name="description" rows="3" placeholder="Provide details regarding objectives, constraints, and scope..." required></textarea>
+                </div>
+            </div>
+            
+            <!-- Grid Row: Duration & Team Size -->
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label for="duration">Estimated Duration</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="duration" name="duration" placeholder="e.g. 3 Months, 6 Weeks" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="team_size">Required Team Size</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="team_size" name="team_size" min="1" max="50" value="3" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Optional Employee CSV Upload -->
+            <div class="form-group">
+                <label for="employee_csv">Import Employees CSV (Optional)</label>
+                <div class="input-wrapper">
+                    <input type="file" id="employee_csv" name="employee_csv" accept=".csv">
+                </div>
+                <span class="form-help-text">Upload a new employee roster file to add/update staff details before running scoring assignments.</span>
+            </div>
+            
+            <!-- Technology Preferences -->
+            <div class="form-group">
+                <label for="technologies">Technology Preferences (Comma-separated)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="technologies" name="technologies" placeholder="e.g. React, Python, Docker, PostgreSQL">
+                </div>
+                <span class="form-help-text">Press comma to separate multiple technologies.</span>
+            </div>
+
+            <!-- Preferred Roles -->
+            <div class="form-group">
+                <label for="preferred_roles">Preferred Roles (Comma-separated)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="preferred_roles" name="preferred_roles" placeholder="e.g. Frontend Developer, DevOps Engineer, Full Stack Developer">
+                </div>
+                <div class="role-suggestions" style="margin-top: 8px;">
+                    <span style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">Suggestions (Click to append):</span>
+                    <div class="badge-row">
+                        <span class="badge badge-outline cursor-pointer" onclick="appendRole('Frontend Developer')">Frontend Developer</span>
+                        <span class="badge badge-outline cursor-pointer" onclick="appendRole('Backend Developer')">Backend Developer</span>
+                        <span class="badge badge-outline cursor-pointer" onclick="appendRole('Full Stack Developer')">Full Stack Developer</span>
+                        <span class="badge badge-outline cursor-pointer" onclick="appendRole('DevOps Engineer')">DevOps Engineer</span>
+                        <span class="badge badge-outline cursor-pointer" onclick="appendRole('Project Manager')">Project Manager</span>
+                        <span class="badge badge-outline cursor-pointer" onclick="appendRole('UI/UX Designer')">UI/UX Designer</span>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top: 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5" style="display:inline; margin-right:6px; vertical-align:middle;"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 21l8.982-11.795m-8.982 11.795 1.147-7.391m-1.147 7.391L3 16.294l6.813-1.01m9.369-9.827L21 3l-8.982 11.795m8.982-11.795-1.147 7.391m1.147-7.391L21 7.706l-6.813 1.01" /></svg>
+                Generate Assignment
+            </button>
+        </form>
+    </div>
+
+    <!-- Right Column: Project History runs -->
+    <div class="project-history-section">
+        <div class="panel-header" style="margin-bottom: 20px;">
+            <h3 class="panel-title">Assignment History</h3>
+        </div>
+        
+        {% if projects %}
+            <div class="history-list">
+                {% for project in projects %}
+                    <div class="history-card card">
+                        <div class="history-card-header">
+                            <div>
+                                <h4 class="history-project-title">{{ project['name'] }}</h4>
+                                <span class="history-project-date">{{ project['created_at'] }}</span>
+                            </div>
+                            <form action="{{ url_for('projects.delete_project', project_id=project['id']) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this project assignment run?');">
+                                <button type="submit" class="btn-icon text-danger" title="Delete Run">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="history-card-body">
+                            <p class="history-desc">{{ project['description'][:120] }}{% if project['description']|length > 120 %}...{% endif %}</p>
+                            
+                            <div class="history-card-meta">
+                                <div>
+                                    <span class="meta-label">Team:</span>
+                                    <span class="meta-value">{{ project['assigned_count'] }} / {{ project['team_size'] }} Members</span>
+                                </div>
+                                <div>
+                                    <span class="meta-label">Duration:</span>
+                                    <span class="meta-value">{{ project['duration'] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="history-card-footer">
+                            <a href="{{ url_for('projects.results', project_id=project['id']) }}" class="btn btn-sm btn-block btn-outline">
+                                View Selection & AI Analysis
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state card">
+                <div class="empty-icon">📁</div>
+                <h4>No History Found</h4>
+                <p>Submit the form on the left to start building a team allocation history log.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function appendRole(role) {
+        const input = document.getElementById('preferred_roles');
+        let current = input.value.trim();
+        if (current) {
+            // Split, filter out empty elements, and check if already contains the role
+            let parts = current.split(',').map(p => p.trim()).filter(p => p);
+            if (!parts.includes(role)) {
+                parts.push(role);
+                input.value = parts.join(', ') + ', ';
+            }
+        } else {
+            input.value = role + ', ';
+        }
+        input.focus();
+    }
+
+</script>
+{% endblock %}

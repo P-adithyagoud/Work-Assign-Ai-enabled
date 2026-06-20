@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up - ProjectAssign{% endblock %}
+
+{% block content %}
+<div class="auth-card-container">
+    <div class="auth-card">
+        <div class="auth-card-header">
+            <div class="auth-brand">PA</div>
+            <h2 class="auth-title">Create an account</h2>
+            <p class="auth-subtitle">Get started with ProjectAssign AI management</p>
+        </div>
+        
+        <form class="auth-form" method="POST" action="{{ url_for('auth.signup') }}">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-wrapper">
+                    <input type="text" id="username" name="username" placeholder="manager" required autofocus>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-wrapper">
+                    <input type="email" id="email" name="email" placeholder="manager@projectassign.com" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+        </form>
+        
+        <div class="auth-card-footer">
+            <p>Already have an account? <a href="{{ url_for('auth.login') }}">Log In</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

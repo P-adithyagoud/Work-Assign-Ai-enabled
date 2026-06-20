@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block title %}Assignment Results - ProjectAssign{% endblock %}
+{% block section_title %}Allocation{% endblock %}
+{% block page_title %}Assignment Results{% endblock %}
+
+{% block header_actions %}
+<div class="badge-row">
+    <a href="{{ url_for('projects.export_csv', project_id=project['id']) }}" class="btn btn-outline">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4" style="display:inline; margin-right:4px;"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+        Export CSV Report
+    </a>
+    <a href="{{ url_for('projects.index') }}" class="btn btn-primary">New Project</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- Project Metadata Card -->
+<div class="results-project-card card" style="margin-bottom: 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+        <div style="flex: 1; min-width: 300px;">
+            <span class="badge badge-outline" style="margin-bottom: 8px;">Run Details</span>
+            <h2>{{ project['name'] }}</h2>
+            <p class="text-muted" style="margin-top: 6px; line-height: 1.5; font-size: 14px;">{{ project['description'] }}</p>
+        </div>
+        <div class="results-metadata-grid">
+            <div class="meta-item">
+                <span class="meta-label">EST. DURATION</span>
+                <span class="meta-value text-white">{{ project['duration'] }}</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">TARGET TEAM SIZE</span>
+                <span class="meta-value text-white">{{ project['team_size'] }} Members</span>
+            </div>
+        </div>
+    </div>
+    <div style="border-top: 1px solid var(--border); margin-top: 20px; padding-top: 16px; display: flex; gap: 24px; flex-wrap: wrap;">
+        <div>
+            <span class="meta-label" style="display:block; margin-bottom: 4px;">TECH PREFERENCES</span>
+            <div class="badge-row">
+                {% for tech in project['technologies'].split(',') %}
+                    {% if tech.strip() %}
+                        <span class="badge badge-outline">{{ tech.strip() }}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div>
+            <span class="meta-label" style="display:block; margin-bottom: 4px;">PREFERRED ROLES</span>
+            <div class="badge-row">
+                {% for role in project['preferred_roles'].split(',') %}
+                    {% if role.strip() %}
+                        <span class="badge badge-outline">{{ role.strip() }}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Team Aggregation KPI Grid -->
+<div class="metrics-grid" style="margin-bottom: 24px;">
+    <!-- Stat 1: Match Score -->
+    <div class="stat-card">
+        <div class="stat-info-full">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <span class="stat-label">Team Match Score</span>
+                <span class="stat-badge {{ team_match_percentage | score_color }}">{{ team_match_percentage | percentage }}</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar {% if team_match_percentage >= 80 %}bg-success{% elif team_match_percentage >= 50 %}bg-warning{% else %}bg-danger{% endif %}" style="width: {{ team_match_percentage }}%"></div>
+            </div>
+            <p class="stat-subtext">Weighted mean score of selection candidates</p>
+        </div>
+    </div>
+
+    <!-- Stat 2: Composition Breakdown -->
+    <div class="stat-card" style="grid-column: span 2;">
+        <div class="stat-info-full">
+            <span class="stat-label" style="display: block; margin-bottom: 12px;">Allocated Roles Distribution</span>
+            <div class="badge-row" style="flex-wrap: wrap;">
+                {% for role, count in composition.items() %}
+                    <div class="role-dist-pill">
+                        <span class="role-dist-name">{{ role }}</span>
+                        <span class="role-dist-count">{{ count }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Left & Right Split: Team Roster (Left) vs AI Explanations (Right) -->
+<div class="results-layout-grid">
+    <!-- Left: Selected Team List -->
+    <div class="results-roster card">
+        <div class="panel-header" style="border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 20px;">
+            <h3 class="panel-title">Scored Team Selection</h3>
+            <p class="text-muted" style="font-size:13px; margin-top:4px;">Ranked in descending order by algorithm matching strength.</p>
+        </div>
+
+        <div class="assigned-roster-list">
+            {% for a in assignments %}
+                <!-- Employee Selection Card -->
+                <div class="assigned-employee-row">
+                    <div class="row-top">
+                        <div class="emp-profile">
+                            <div class="avatar">{{ a['name'][0].upper() }}</div>
+                            <div>
+                                <h4 class="emp-name text-white">{{ a['name'] }}</h4>
+                                <span class="emp-role-label">{{ a['role'] }}</span>
+                            </div>
+                        </div>
+                        <div class="emp-metric-scores">
+                            <div class="metric-score-pill">
+                                <span class="lbl">Match Score</span>
+                                <span class="val {{ a['match_score'] | score_color }}">{{ a['match_score'] | percentage }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row-middle">
+                        <div class="emp-grid-details">
+                            <div><span class="lbl">ID:</span> <code class="val text-indigo">{{ a['employee_id'] }}</code></div>
+                            <div><span class="lbl">Exp:</span> <span class="val text-white">{{ a['experience'] }} yrs</span></div>
+                            <div><span class="lbl">Perf:</span> <span class="val text-white">{{ a['performance_score'] }}%</span></div>
+                            <div><span class="lbl">Avail:</span> <span class="val text-white">{{ a['availability'] }}</span></div>
+                        </div>
+                        <div class="emp-skills-row" style="margin-top: 10px;">
+                            <span class="lbl" style="font-size:11px; margin-right:6px;">Skills:</span>
+                            <div class="badge-row inline-row">
+                                {% for skill in a['skills'].split(',') %}
+                                    <span class="badge badge-outline" style="font-size:10px; padding: 2px 6px;">{{ skill.strip() }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Selection Justification -->
+                    {% set emp_id_str = a['employee_id'] | string %}
+                    {% set reason = ai_insights.get('individual_explanations', {}).get(emp_id_str) or ai_insights.get('individual_explanations', {}).get(a['employee_id']) %}
+                    {% if reason %}
+                        <div class="row-ai-reason">
+                            <div class="ai-icon">✦</div>
+                            <div class="ai-reason-text">
+                                <strong>AI Selection Reason:</strong> {{ reason }}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Right: AI System Reports & Insights -->
+    <div class="results-ai-insights">
+        <div class="panel-header" style="margin-bottom: 20px;">
+            <h3 class="panel-title">AI Team Assessment</h3>
+        </div>
+
+        {% if ai_insights %}
+            <!-- Strengths Card -->
+            <div class="ai-report-card card card-glow-indigo" style="margin-bottom: 16px;">
+                <div class="report-header">
+                    <span class="report-icon text-indigo">✦</span>
+                    <h4 class="report-title">Team Strengths</h4>
+                </div>
+                <div class="report-body">
+                    <p>{{ ai_insights.get('team_strengths', 'No strengths summary available.') }}</p>
+                </div>
+            </div>
+
+            <!-- Risks Alert Box -->
+            <div class="ai-report-card card border-warning" style="margin-bottom: 16px;">
+                <div class="report-header">
+                    <span class="report-icon text-warning">⚠️</span>
+                    <h4 class="report-title">Delivery Risks</h4>
+                </div>
+                <div class="report-body text-warning-light">
+                    <p>{{ ai_insights.get('delivery_risks', 'No risks summary available.') }}</p>
+                </div>
+            </div>
+
+            <!-- Missing Skills Card -->
+            <div class="ai-report-card card" style="margin-bottom: 16px;">
+                <div class="report-header">
+                    <span class="report-icon text-danger">🗙</span>
+                    <h4 class="report-title">Missing Tech Stack Skills</h4>
+                </div>
+                <div class="report-body">
+                    {% if ai_insights.get('missing_skills') %}
+                        <div class="badge-row">
+                            {% for skill in ai_insights.get('missing_skills', []) %}
+                                <span class="badge badge-danger">{{ skill }}</span>
+                            {% endfor %}
+                        </div>
+                        <p class="text-muted" style="font-size:12px; margin-top:8px;">These requested technologies have no matching developer profiles within the assigned team.</p>
+                    {% else %}
+                        <p class="text-success-light">✓ All requested technologies are covered by the assigned team.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Recommendations Card -->
+            <div class="ai-report-card card" style="margin-bottom: 16px;">
+                <div class="report-header">
+                    <span class="report-icon text-emerald">💡</span>
+                    <h4 class="report-title">Actionable Recommendations</h4>
+                </div>
+                <div class="report-body">
+                    <p>{{ ai_insights.get('recommendations', 'No recommendations summary available.') }}</p>
+                </div>
+            </div>
+        {% else %}
+            <div class="empty-state card">
+                <div class="empty-icon">✦</div>
+                <h4>AI Insights Unavailable</h4>
+                <p>Ensure a valid Groq API key is present in environment configurations to fetch AI team assessments.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

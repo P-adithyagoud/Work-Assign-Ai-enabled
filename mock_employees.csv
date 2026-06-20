@@ -1,0 +1,11 @@
+Employee ID,Name,Role,Skills,Experience (Years),Availability,Performance Score
+EMP001,Alice Johnson,Frontend Developer,"React, JavaScript, HTML, CSS, Tailwind",6,Available,92
+EMP002,Bob Smith,Backend Developer,"Python, Flask, SQLite, SQL, PostgreSQL",8,80%,88
+EMP003,Charlie Davis,Full Stack Developer,"Python, Flask, React, JavaScript, SQL, Docker",10,Available,95
+EMP004,David Miller,DevOps Engineer,"Docker, AWS, Kubernetes, CI/CD, Linux",7,Available,85
+EMP005,Eve Wilson,QA Engineer,"JUnit, Selenium, Python, JavaScript, QA",4,100%,80
+EMP006,Frank Thomas,UI/UX Designer,"Figma, UI/UX, Design, Wireframing, Adobe",5,50%,90
+EMP007,Grace Lee,Project Manager,"Agile, Jira, Project Management, Scrum",12,Available,94
+EMP008,Henry Clark,Backend Developer,"Java, Spring Boot, SQL, PostgreSQL, Docker",3,Available,75
+EMP009,Ivy Martinez,Frontend Developer,"Vue, JavaScript, CSS, HTML",2,Unavailable,70
+EMP010,Jack Taylor,AI Engineer,"Python, PyTorch, ML, AI, Docker, SQL",6,Available,89
