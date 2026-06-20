@@ -1,0 +1,287 @@
+/* Phase 2: Project Execution Platform Styles */
+
+/* Project Overview Cards */
+.project-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.project-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-lg);
+}
+
+.project-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.project-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-white);
+    margin-bottom: 4px;
+}
+
+.project-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* Badges for Status & Health */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-planning { background: rgba(94, 106, 210, 0.15); color: #818cf8; border: 1px solid rgba(94, 106, 210, 0.3); }
+.status-inprogress { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+.status-review { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.status-completed { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+.status-blocked { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+/* Health Scores */
+.health-green { color: #34d399; display: flex; align-items: center; gap: 4px; font-weight: 600; font-size: 12px; }
+.health-yellow { color: #fbbf24; display: flex; align-items: center; gap: 4px; font-weight: 600; font-size: 12px; }
+.health-red { color: #f87171; display: flex; align-items: center; gap: 4px; font-weight: 600; font-size: 12px; }
+
+/* Animated Progress Bar */
+.progress-container {
+    width: 100%;
+    height: 6px;
+    background-color: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), #818cf8);
+    border-radius: 999px;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+    transform: translateX(-100%);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    100% { transform: translateX(100%); }
+}
+
+/* Team Avatars */
+.team-avatars {
+    display: flex;
+    align-items: center;
+}
+
+.avatar-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--border-hover);
+    border: 2px solid var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-white);
+    margin-left: -8px;
+    position: relative;
+    z-index: 1;
+}
+
+.avatar-circle:first-child { margin-left: 0; }
+.avatar-circle:hover { z-index: 10; transform: scale(1.1); }
+
+/* Right Drawer (Modal) */
+.drawer-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.drawer-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.drawer-panel {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 800px;
+    max-width: 100vw;
+    background-color: var(--bg-sidebar);
+    border-left: 1px solid var(--border);
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+}
+
+.drawer-panel.open {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-card);
+}
+
+.drawer-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-white);
+}
+
+.drawer-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+}
+.drawer-close:hover { background-color: var(--border); color: var(--text-white); }
+
+.drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px;
+}
+
+/* Kanban Board */
+.kanban-board {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    margin-top: 24px;
+    min-height: 400px;
+}
+
+.kanban-column {
+    flex: 1;
+    min-width: 250px;
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+}
+
+.kanban-header {
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kanban-column-content {
+    flex: 1;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 100px;
+}
+
+.kanban-task {
+    background-color: var(--bg-sidebar);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    cursor: grab;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.kanban-task:active { cursor: grabbing; }
+.kanban-task.dragging { opacity: 0.5; transform: scale(0.95); }
+.kanban-task:hover { border-color: var(--border-hover); box-shadow: var(--shadow-sm); }
+
+.task-title { font-size: 13px; font-weight: 500; color: var(--text-white); margin-bottom: 8px; }
+.task-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); align-items: center; }
+
+/* Tabs inside Drawer */
+.drawer-tabs {
+    display: flex;
+    gap: 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+}
+
+.drawer-tab {
+    padding: 12px 0;
+    color: var(--text-muted);
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.drawer-tab:hover { color: var(--text-white); }
+.drawer-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* AI Action Center */
+.action-center {
+    background: linear-gradient(135deg, rgba(94, 106, 210, 0.1), rgba(0,0,0,0));
+    border: 1px solid var(--primary-light);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.action-center h3 { color: var(--text-white); font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;}
+.action-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.action-item:last-child { border-bottom: none; padding-bottom: 0; }

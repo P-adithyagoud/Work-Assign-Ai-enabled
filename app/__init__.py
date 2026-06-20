@@ -66,6 +66,16 @@ def create_app(test_config=None):
     from .projects.routes import bp as projects_bp
     app.register_blueprint(projects_bp)
 
+    # Register API Blueprints
+    from .api_routes.projects import bp as api_projects_bp
+    app.register_blueprint(api_projects_bp)
+    
+    from .api_routes.tasks import bp as api_tasks_bp
+    app.register_blueprint(api_tasks_bp)
+    
+    from .api_routes.insights import bp as api_insights_bp
+    app.register_blueprint(api_insights_bp)
+
     # Global Redirect from Root to Dashboard
     @app.route('/')
     def index():
