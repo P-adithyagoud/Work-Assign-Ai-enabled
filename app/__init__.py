@@ -29,7 +29,10 @@ def create_app(test_config=None):
     # Initialize Database
     app.teardown_appcontext(close_db)
     with app.app_context():
-        init_db()
+        try:
+            init_db()
+        except Exception as e:
+            app.logger.error(f"Database initialization failed: {e}")
 
     # Register custom template filters
     @app.template_filter("percentage")
