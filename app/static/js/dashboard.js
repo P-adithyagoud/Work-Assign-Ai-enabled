@@ -93,7 +93,7 @@ async function fetchProjects() {
 async function openProjectDrawer(projectId) {
     currentProjectId = projectId;
     document.getElementById('drawer-overlay').classList.add('open');
-    document.getElementById('drawer-panel').classList.add('open');
+    document.getElementById('project-drawer').classList.add('open');
     
     // Reset data
     document.getElementById('drawer-project-title').textContent = "Loading...";
@@ -128,7 +128,7 @@ async function openProjectDrawer(projectId) {
 
 function closeDrawer() {
     document.getElementById('drawer-overlay').classList.remove('open');
-    document.getElementById('drawer-panel').classList.remove('open');
+    document.getElementById('project-drawer').classList.remove('open');
     currentProjectId = null;
 }
 
