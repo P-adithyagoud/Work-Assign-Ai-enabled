@@ -3,7 +3,7 @@ import os
 import requests
 
 class TestProjectAssignIntegration(unittest.TestCase):
-    BASE_URL = "http://127.0.0.1:5001"
+    BASE_URL = "http://127.0.0.1:5000"
 
     def setUp(self):
         self.session = requests.Session()
@@ -17,10 +17,11 @@ class TestProjectAssignIntegration(unittest.TestCase):
         if is_postgres and not is_placeholder:
             # Clean up PostgreSQL (Supabase) database tables and restart serial sequences
             import pg8000
+            from urllib.parse import urlparse, unquote
             result = urlparse(db_url)
             conn = pg8000.connect(
                 user=result.username,
-                password=result.password,
+                password=unquote(result.password) if result.password else None,
                 host=result.hostname,
                 port=result.port or 5432,
                 database=result.path[1:]
