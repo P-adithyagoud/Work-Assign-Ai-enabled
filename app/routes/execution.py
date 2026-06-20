@@ -452,10 +452,17 @@ def upload_file():
     upload_dir = current_app.config["UPLOAD_FOLDER"]
     os.makedirs(upload_dir, exist_ok=True)
     original = secure_filename(uploaded.filename)
-    existing_versions = get_db().execute(
-        "SELECT COUNT(*) AS total FROM files WHERE original_name = ? AND project_id IS ?",
-        (original, request.form.get("project_id")),
-    ).fetchone()["total"]
+    proj_id = request.form.get("project_id")
+    if proj_id:
+        existing_versions = get_db().execute(
+            "SELECT COUNT(*) AS total FROM files WHERE original_name = ? AND project_id = ?",
+            (original, proj_id),
+        ).fetchone()["total"]
+    else:
+        existing_versions = get_db().execute(
+            "SELECT COUNT(*) AS total FROM files WHERE original_name = ? AND project_id IS NULL",
+            (original,),
+        ).fetchone()["total"]
     version = existing_versions + 1
     stored_name = f"{uuid.uuid4().hex}_{original}"
     path = os.path.join(upload_dir, stored_name)
