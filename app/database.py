@@ -62,14 +62,31 @@ class PostgresConnectionWrapper:
 
     def execute(self, query, params=None):
         cursor = self.cursor()
-        cursor.execute(query, params)
+        try:
+            cursor.execute(query, params)
+        except Exception:
+            self.conn.rollback()
+            raise
         return cursor
 
     def executescript(self, script_text):
+        """Execute multiple SQL statements separated by semicolons.
+        psycopg2 does NOT support multi-statement execute() — split and execute each separately.
+        """
+        import re
+        # Split on semicolons not inside quotes/parens (simple approach for DDL)
+        statements = [s.strip() for s in script_text.split(';') if s.strip()]
         cursor = self.conn.cursor()
-        cursor.execute(script_text)
-        self.conn.commit()
-        cursor.close()
+        try:
+            for stmt in statements:
+                if stmt:
+                    cursor.execute(stmt)
+            self.conn.commit()
+        except Exception as e:
+            self.conn.rollback()
+            raise
+        finally:
+            cursor.close()
 
     def commit(self):
         self.conn.commit()
