@@ -1,0 +1,101 @@
+employee_id,name,skills,experience,role,availability,performance_score
+EMP1001,Aarav Mehta,"HTML, CSS, JavaScript, React, Accessibility",4,Frontend Developer,Available,86
+EMP1002,Diya Sharma,"Python, Flask, Django, REST APIs, SQLite",6,Python Developer,Available,91
+EMP1003,Rohan Iyer,"Java, Spring Boot, Microservices, PostgreSQL",7,Java Developer,Busy,84
+EMP1004,Anika Rao,"AWS, Docker, Kubernetes, CI/CD, Terraform",8,DevOps Engineer,Available,89
+EMP1005,Vikram Nair,"SQL, Power BI, Excel, Data Cleaning, Dashboards",5,Data Analyst,Available,82
+EMP1006,Sneha Kapoor,"Machine Learning, Python, Pandas, Scikit-learn",4,ML Engineer,Available,88
+EMP1007,Kabir Singh,"Node.js, Express, APIs, MongoDB, Redis",5,Backend Developer,Busy,80
+EMP1008,Isha Verma,"Figma, Wireframes, Design Systems, Prototyping",6,UI/UX Designer,Available,90
+EMP1009,Arjun Das,"Selenium, Cypress, Test Plans, Regression Testing",3,QA Engineer,Available,78
+EMP1010,Meera Kulkarni,"Project Planning, Agile, Risk Management, Jira",9,Project Manager,Available,92
+EMP1011,Neil Banerjee,"React, TypeScript, CSS, Web Performance",5,Frontend Developer,Available,87
+EMP1012,Tara Joshi,"Python, FastAPI, Flask, SQLAlchemy, APIs",4,Python Developer,Busy,83
+EMP1013,Aditya Menon,"Java, Kafka, Spring Cloud, Distributed Systems",8,Backend Developer,Available,90
+EMP1014,Priya Shah,"Azure, Cloud Security, Networking, Terraform",7,Cloud Engineer,Available,86
+EMP1015,Dev Patel,"Tableau, SQL, Statistics, Business Analysis",4,Data Analyst,Available,81
+EMP1016,Nisha Reddy,"Deep Learning, NLP, LLMs, Python, MLOps",6,AI Engineer,Busy,93
+EMP1017,Karan Malhotra,"React, Flask, PostgreSQL, REST APIs",5,Full Stack Developer,Available,88
+EMP1018,Avni Gupta,"Manual Testing, API Testing, Postman, TestRail",4,QA Engineer,Available,79
+EMP1019,Sameer Khan,"Docker, Jenkins, Linux, Monitoring, Bash",6,DevOps Engineer,Available,85
+EMP1020,Riya Chatterjee,"Figma, User Research, UX Writing, Design QA",5,UI/UX Designer,Busy,84
+EMP1021,Manav Bhat,"HTML, CSS, JavaScript, Vue, Responsive Design",3,Frontend Developer,Available,77
+EMP1022,Kavya Pillai,"Python, Data Pipelines, Airflow, SQLite, ETL",5,Data Scientist,Available,87
+EMP1023,Harsh Vardhan,"Java, Hibernate, REST APIs, MySQL",6,Java Developer,Available,82
+EMP1024,Leela Krishnan,"AWS Lambda, Serverless, CloudFormation, Python",5,Cloud Engineer,Busy,88
+EMP1025,Om Prakash,"Scrum, Roadmaps, Stakeholder Management, Delivery",10,Project Manager,Available,91
+EMP1026,Zara Ali,"Python, PyTorch, Computer Vision, Model Evaluation",4,ML Engineer,Available,86
+EMP1027,Reyansh Sinha,"Node.js, Python, APIs, Docker, PostgreSQL",5,Full Stack Developer,Available,84
+EMP1028,Mahi Jain,"Cypress, Playwright, Automation, JavaScript",4,QA Engineer,Busy,83
+EMP1029,Krish Rao,"React, Next.js, UI State, Tailwind CSS",4,Frontend Developer,Available,85
+EMP1030,Anaya Bose,"SQL, Python, Forecasting, Data Visualization",6,Data Scientist,Available,89
+EMP1031,Ayaan Choudhury,"Flask, Celery, Redis, REST APIs, Python",7,Backend Developer,Available,90
+EMP1032,Saanvi Nanda,"Java, Spring Security, APIs, Oracle",5,Java Developer,Busy,79
+EMP1033,Yash Agarwal,"GCP, Kubernetes, Docker, Observability",6,Cloud Engineer,Available,87
+EMP1034,Kiara Sen,"UX Research, Information Architecture, Figma",4,UI/UX Designer,Available,82
+EMP1035,Ishan Dutta,"Data Warehousing, SQL, dbt, Analytics Engineering",5,Data Analyst,Available,85
+EMP1036,Myra Saxena,"LLMs, Prompt Engineering, Python, Vector Search",5,AI Engineer,Available,91
+EMP1037,Arnav Gill,"React, Node.js, GraphQL, PostgreSQL",6,Full Stack Developer,Busy,86
+EMP1038,Siya Arora,"Test Automation, Selenium, Python, CI Testing",5,QA Engineer,Available,84
+EMP1039,Rudra Bansal,"Terraform, AWS, GitHub Actions, Security",7,DevOps Engineer,Available,88
+EMP1040,Aisha Mirza,"Agile Coaching, Budgeting, Program Delivery",11,Project Manager,Busy,89
+EMP1041,Veer Narang,"JavaScript, Angular, RxJS, CSS Architecture",5,Frontend Developer,Available,81
+EMP1042,Pihu Sethi,"Python, Flask, Authentication, SQLite, APIs",3,Python Developer,Available,80
+EMP1043,Advait Roy,"Java, Spring Boot, Kafka, PostgreSQL",7,Backend Developer,Available,87
+EMP1044,Navya Bedi,"Azure DevOps, IaC, Containers, Monitoring",6,DevOps Engineer,Available,85
+EMP1045,Parth Tiwari,"Excel, SQL, Looker, KPI Reporting",3,Data Analyst,Busy,76
+EMP1046,Tanvi Ghosh,"ML Pipelines, Feature Engineering, Python",5,ML Engineer,Available,88
+EMP1047,Vihaan Suri,"Python, FastAPI, React, Docker",4,Full Stack Developer,Available,83
+EMP1048,Anvi Mathur,"Figma, Mobile UX, Usability Testing",4,UI/UX Designer,Available,86
+EMP1049,Lakshya Jain,"API Testing, Load Testing, Postman, JMeter",5,QA Engineer,Busy,82
+EMP1050,Ira Thomas,"Project Governance, Jira, Sprint Planning, RAID Logs",8,Project Manager,Available,87
+EMP1051,Raghav Kapoor,"React, Redux, TypeScript, Design Systems",6,Frontend Developer,Available,90
+EMP1052,Sara Fernandes,"Python, Django, PostgreSQL, REST Framework",5,Python Developer,Busy,84
+EMP1053,Mohit Bahl,"Java, Microservices, Redis, Docker",6,Java Developer,Available,83
+EMP1054,Noor Ansari,"AWS, ECS, RDS, CloudWatch, Terraform",4,Cloud Engineer,Available,82
+EMP1055,Gauri Mishra,"Python, Statistics, A/B Testing, SQL",5,Data Scientist,Available,86
+EMP1056,Anshuman Roy,"LLM Apps, LangChain, RAG, Python",4,AI Engineer,Available,89
+EMP1057,Hridya Nair,"Node.js, Flask, JavaScript, SQLite",4,Full Stack Developer,Available,81
+EMP1058,Milan Shah,"QA Strategy, Automation Frameworks, Cypress",7,QA Engineer,Available,88
+EMP1059,Jatin Arora,"Linux, Docker, Jenkins, Grafana, Prometheus",5,DevOps Engineer,Busy,84
+EMP1060,Suhani Desai,"Roadmaps, Resource Planning, Agile Delivery",9,Project Manager,Available,90
+EMP1061,Anmol Khanna,"HTML, CSS, Web Components, Accessibility",4,Frontend Developer,Available,79
+EMP1062,Esha Bhatt,"Python, Flask, Data APIs, Pandas",3,Python Developer,Available,82
+EMP1063,Tejas Nambiar,"Spring Boot, Java, APIs, SQL Optimization",8,Backend Developer,Available,88
+EMP1064,Kriti Mehra,"GCP, BigQuery, Cloud Run, Terraform",5,Cloud Engineer,Busy,85
+EMP1065,Samar Qureshi,"SQL, Python, Data Modeling, BI Reporting",6,Data Analyst,Available,87
+EMP1066,Pallavi Roy,"NLP, Transformers, Python, Model Serving",5,ML Engineer,Available,90
+EMP1067,Jayant Sood,"React, Node.js, REST APIs, MongoDB",4,Full Stack Developer,Busy,80
+EMP1068,Reva Kapoor,"Figma, Accessibility, Design Systems, UX Research",6,UI/UX Designer,Available,91
+EMP1069,Nakul Wadhwa,"Manual QA, Regression, Test Cases, Bug Triage",3,QA Engineer,Available,77
+EMP1070,Farah Khan,"Agile, Vendor Coordination, Delivery Reporting",7,Project Manager,Available,85
+EMP1071,Aryan Grover,"React Native, JavaScript, Mobile UI, APIs",5,Frontend Developer,Available,84
+EMP1072,Lavanya Rao,"Python, FastAPI, Auth, Background Jobs",4,Python Developer,Available,86
+EMP1073,Pranav Joshi,"Java, Spring Batch, Kafka, Oracle",6,Java Developer,Busy,81
+EMP1074,Misha Singh,"AWS, DevSecOps, Docker, Kubernetes",7,DevOps Engineer,Available,89
+EMP1075,Aditi Chopra,"Tableau, SQL, Data Quality, Metrics",4,Data Analyst,Available,80
+EMP1076,Ritvik Anand,"Computer Vision, PyTorch, Python, MLOps",5,ML Engineer,Available,87
+EMP1077,Samaira Das,"LLM Evaluation, Prompting, Python, APIs",3,AI Engineer,Busy,85
+EMP1078,Devansh Jain,"React, Flask, REST APIs, PostgreSQL",5,Full Stack Developer,Available,88
+EMP1079,Tisha Mallick,"Automation Testing, Playwright, TypeScript",4,QA Engineer,Available,86
+EMP1080,Armaan Sethi,"Scrum, Capacity Planning, Risk Reviews",8,Project Manager,Available,88
+EMP1081,Rhea Menon,"Angular, TypeScript, Sass, Frontend Testing",5,Frontend Developer,Busy,83
+EMP1082,Nirvaan Kaur,"Python, Flask, SQLAlchemy, API Security",6,Python Developer,Available,90
+EMP1083,Mehul Trivedi,"Java, Spring Boot, REST, PostgreSQL",4,Java Developer,Available,78
+EMP1084,Tanya Bhatia,"Azure, AKS, Terraform, Monitoring",5,Cloud Engineer,Available,84
+EMP1085,Kunal Saxena,"SQL, Python, ETL, Data Validation",5,Data Analyst,Available,83
+EMP1086,Veda Narayan,"Data Science, Forecasting, Python, Statistics",6,Data Scientist,Busy,88
+EMP1087,Sahil Kapoor,"ML Ops, Docker, Model Registry, Python",5,ML Engineer,Available,86
+EMP1088,Anushka Jain,"AI Agents, RAG, Vector DB, Python",4,AI Engineer,Available,90
+EMP1089,Neeraj Batra,"Node.js, GraphQL, Redis, PostgreSQL",6,Backend Developer,Available,85
+EMP1090,Mira Saini,"UX Strategy, Prototyping, Design Research",7,UI/UX Designer,Available,89
+EMP1091,Raj Malhotra,"Selenium, API Testing, Performance Testing",6,QA Engineer,Busy,85
+EMP1092,Arya Mukherjee,"Kubernetes, Helm, CI/CD, AWS",5,DevOps Engineer,Available,87
+EMP1093,Shreya Kulkarni,"Program Management, Stakeholders, Jira, Budgeting",10,Project Manager,Available,91
+EMP1094,Akash Verma,"Vue, JavaScript, CSS, Web Accessibility",4,Frontend Developer,Available,80
+EMP1095,Naina Kapoor,"Python, Django, Celery, Redis, PostgreSQL",7,Backend Developer,Available,89
+EMP1096,Varun Shetty,"Java, Distributed Systems, Kafka, Spring",9,Java Developer,Busy,90
+EMP1097,Elina Dsouza,"Cloud Architecture, AWS, Security, Cost Optimization",8,Cloud Engineer,Available,92
+EMP1098,Rishi Jain,"Data Mining, Python, SQL, Visualization",4,Data Scientist,Available,82
+EMP1099,Maanya Bansal,"Figma, UI Design, Interaction Design, Design QA",3,UI/UX Designer,Available,81
+EMP1100,Aman Khurana,"QA Leadership, Automation, Release Validation",8,QA Engineer,Available,90

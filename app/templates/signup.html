@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Signup | ProjectAssign</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="auth-page">
+    <main class="auth-layout">
+        <section class="auth-brand-panel">
+            <a class="brand-system" href="{{ url_for('auth.signup_page') }}">
+                <span class="brand-glyph">PA</span>
+                <span>
+                    <strong>ProjectAssign</strong>
+                    <small>Resource intelligence</small>
+                </span>
+            </a>
+            <div>
+                <span class="section-label">Explainable staffing</span>
+                <h1>Launch staffing plans with transparent scoring.</h1>
+                <p>Upload employee data, score candidates deterministically, and generate AI-assisted project recommendations without letting AI pick the team.</p>
+            </div>
+            <div class="auth-proof">
+                <div><strong>CSV</strong><span>Roster import</span></div>
+                <div><strong>PDF</strong><span>Report export</span></div>
+                <div><strong>AI</strong><span>Explanations</span></div>
+            </div>
+        </section>
+
+        <section class="auth-card">
+            <span class="section-label">Create workspace access</span>
+            <h2>Start with an account</h2>
+            <form id="signupForm" class="auth-form">
+                <label class="field">
+                    <span>Name</span>
+                    <input type="text" name="name" autocomplete="name" required>
+                </label>
+                <label class="field">
+                    <span>Email</span>
+                    <input type="email" name="email" autocomplete="email" required>
+                </label>
+                <label class="field">
+                    <span>Password</span>
+                    <input type="password" name="password" autocomplete="new-password" minlength="8" required>
+                </label>
+                <label class="field">
+                    <span>Role</span>
+                    <select name="role" required>
+                        {% for role in roles %}
+                        <option value="{{ role }}">{{ role }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <button type="submit" class="primary-action">Create account</button>
+                <div class="form-message" id="authMessage"></div>
+            </form>
+            <p class="auth-switch">Already have an account? <a href="{{ url_for('auth.login_page') }}">Login</a></p>
+        </section>
+    </main>
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</body>
+</html>

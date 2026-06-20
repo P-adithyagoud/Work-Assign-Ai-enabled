@@ -1,135 +1,402 @@
-{% extends "base.html" %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard | ProjectAssign</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="assigniq-body">
+    <div class="assigniq-app">
+        <aside class="left-rail">
+            <a class="rail-brand" href="{{ url_for('project.dashboard') }}">
+                <span class="brand-tile">PA</span>
+                <span>
+                    <strong>ProjectAssign</strong>
+                    <small>Resource Intelligence</small>
+                </span>
+            </a>
 
-{% block title %}Dashboard - ProjectAssign{% endblock %}
-{% block section_title %}Project Execution Platform{% endblock %}
-{% block page_title %}Overview{% endblock %}
+            <nav class="rail-nav" aria-label="Primary navigation">
+                <a class="active" href="#dashboardHome" data-view-link="dashboard"><span>D</span>Dashboard</a>
+                <a href="#projectForm" data-view-link="planner"><span>P</span>Planner</a>
+                <a href="#employeeCards" data-view-link="talent"><span>T</span>Talent</a>
+                <a href="#projectCards" data-view-link="projects"><span>PR</span>Projects</a>
+                <a href="#resultContent" data-view-link="reports"><span>R</span>Reports</a>
+                <a href="#riskPanel" data-view-link="ai-insights"><span>AI</span>AI Insights <em>New</em></a>
+            </nav>
 
-{% block header_actions %}
-<a href="{{ url_for('projects.index') }}" class="btn btn-primary">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4" style="display:inline; margin-right:4px;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-    Create Project
-</a>
-{% endblock %}
+            <div class="rail-section-title">Tools</div>
+            <nav class="rail-nav compact" aria-label="Tools">
+                <a href="#taskForm" data-view-link="tasks"><span>TM</span>Task Management</a>
+                <a href="#uploadForm" data-view-link="roster"><span>RI</span>Roster Import</a>
+                <a href="#projectForm" data-view-link="assignment"><span>AE</span>Assignment Engine</a>
+                <a href="#analyzeRisksBtn" data-view-link="risk-analyzer"><span>RA</span>Risk Analyzer</a>
+            </nav>
 
-{% block content %}
-<!-- Project Grid Container -->
-<div id="project-container" class="project-card-grid">
-    <!-- Project cards will be injected here dynamically by JavaScript -->
-    <div style="text-align: center; grid-column: 1 / -1; color: var(--text-muted); padding: 40px;">
-        Loading projects...
-    </div>
-</div>
+            <div class="rail-section-title">Settings</div>
+            <nav class="rail-nav compact" aria-label="Settings">
+                <a href="#assistantForm" data-view-link="team-settings"><span>TS</span>Team Settings</a>
+                <a href="#roleFilter" data-view-link="roles-skills"><span>RS</span>Roles & Skills</a>
+                <a href="#notificationList" data-view-link="preferences"><span>PF</span>Preferences</a>
+            </nav>
 
-<!-- Project Details Drawer Modal -->
-<div id="drawer-overlay" class="drawer-overlay"></div>
-<div id="project-drawer" class="drawer-panel">
-    <div class="drawer-header">
-        <div style="display: flex; flex-direction: column;">
-            <span id="drawer-project-status" class="status-badge status-planning">Planning</span>
-            <h2 id="drawer-project-title" class="drawer-title" style="margin-top: 8px;">Project Title</h2>
-        </div>
-        <button id="close-drawer-btn" class="drawer-close">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
-        </button>
-    </div>
-    
-    <div class="drawer-tabs" style="padding: 0 32px; margin-bottom: 0;">
-        <div class="drawer-tab active" data-tab="overview">Overview</div>
-        <div class="drawer-tab" data-tab="kanban">Kanban Board</div>
-        <div class="drawer-tab" data-tab="team">Team & Matrix</div>
-    </div>
-    
-    <div class="drawer-body">
-        <!-- Overview Tab -->
-        <div id="tab-overview" class="tab-content active">
-            <div id="ai-insights-container" class="action-center" style="display: none;">
-                <h3><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> AI Project Health Insights</h3>
-                <p id="insight-summary" style="color: var(--text-muted); font-size: 13px; margin-bottom: 12px;"></p>
-                <div id="insight-risks"></div>
-                <div id="insight-actions"></div>
-            </div>
-            
-            <div style="margin-bottom: 24px;">
-                <h4 style="color: var(--text-white); margin-bottom: 8px;">Description</h4>
-                <p id="drawer-project-desc" style="color: var(--text-muted); font-size: 13px;"></p>
-            </div>
-            
-            <div class="form-grid-2" style="margin-bottom: 24px;">
-                <div>
-                    <h4 style="color: var(--text-white); margin-bottom: 4px; font-size: 13px;">Deadline</h4>
-                    <p id="drawer-project-duration" style="color: var(--text-muted); font-size: 13px;"></p>
+            <section class="rail-assistant">
+                <div class="mini-bot">AI</div>
+                <strong>AI Assistant</strong>
+                <span>Online</span>
+                <p>Need help with assignments?</p>
+                <a href="#assistantForm" data-view-link="ai-insights">Ask AI Assistant <b>-&gt;</b></a>
+            </section>
+        </aside>
+
+        <main class="dashboard-canvas" id="dashboardHome">
+            <header class="dashboard-topbar">
+                <div class="greeting-block">
+                    <h1>Good morning, {{ user["name"].split(" ")[0] }}!</h1>
+                    <p>Here's what's happening with your projects today.</p>
                 </div>
-                <div>
-                    <h4 style="color: var(--text-white); margin-bottom: 4px; font-size: 13px;">Progress</h4>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <span id="drawer-project-progress-text" style="font-size: 12px; font-weight: 600;">0%</span>
-                        <span id="drawer-project-health" class="health-green">Healthy</span>
+
+                <div class="topbar-actions">
+                    <label class="global-search">
+                        <span>S</span>
+                        <input type="search" placeholder="Search employees, projects...">
+                        <kbd>Ctrl K</kbd>
+                    </label>
+                    <button class="date-pill" type="button">May 23, 2025 v</button>
+                    <button class="bell-button" type="button">N<sup>3</sup></button>
+                    <div class="profile-chip">
+                        <span>
+                            <strong>{{ user["name"] }}</strong>
+                            <small>{{ user["role"] }}</small>
+                        </span>
+                        <span class="profile-photo">{{ user["name"][0:1] }}</span>
+                        <a href="{{ url_for('auth.logout') }}">v</a>
                     </div>
-                    <div class="progress-container">
-                        <div id="drawer-project-progress-bar" class="progress-bar" style="width: 0%;"></div>
-                    </div>
                 </div>
-            </div>
-            
-            <div>
-                <h4 style="color: var(--text-white); margin-bottom: 12px;">Milestones Timeline</h4>
-                <div id="milestones-container" style="display: flex; flex-direction: column; gap: 12px;">
-                    <!-- Injected via JS -->
-                </div>
-            </div>
-        </div>
-        
-        <!-- Kanban Tab -->
-        <div id="tab-kanban" class="tab-content">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
-                <h3 style="color: var(--text-white);">Task Management</h3>
-                <button id="add-task-btn" class="btn btn-sm btn-primary">+ Add Task</button>
-            </div>
-            <div class="kanban-board">
-                <div class="kanban-column" id="column-todo" data-status="To Do">
-                    <div class="kanban-header">To Do <span class="badge badge-outline">0</span></div>
-                    <div class="kanban-column-content"></div>
-                </div>
-                <div class="kanban-column" id="column-progress" data-status="In Progress">
-                    <div class="kanban-header">In Progress <span class="badge badge-outline">0</span></div>
-                    <div class="kanban-column-content"></div>
-                </div>
-                <div class="kanban-column" id="column-review" data-status="Review">
-                    <div class="kanban-header">Review <span class="badge badge-outline">0</span></div>
-                    <div class="kanban-column-content"></div>
-                </div>
-                <div class="kanban-column" id="column-completed" data-status="Completed">
-                    <div class="kanban-header">Completed <span class="badge badge-outline">0</span></div>
-                    <div class="kanban-column-content"></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Team Tab -->
-        <div id="tab-team" class="tab-content">
-            <h3 style="color: var(--text-white); margin-bottom: 16px;">Responsibility Matrix & Utilization</h3>
-            <div class="table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Team Member</th>
-                            <th>Role</th>
-                            <th>Utilization</th>
-                            <th>Tasks Assigned</th>
-                        </tr>
-                    </thead>
-                    <tbody id="team-table-body">
-                        <!-- Injected via JS -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
+            </header>
 
-{% block extra_css %}
-<!-- Add custom logic script here -->
-<script src="{{ url_for('static', filename='js/dashboard.js') }}" defer></script>
-<script src="{{ url_for('static', filename='js/kanban.js') }}" defer></script>
-{% endblock %}
+            <section class="main-dashboard-grid">
+                <div class="primary-dashboard">
+                    <section class="kpi-row" id="analyticsPanel" data-view-section="dashboard projects tasks ai-insights">
+                        <article class="kpi-card">
+                            <span class="kpi-icon">P</span>
+                            <div>
+                                <span>Total Projects</span>
+                                <strong>0</strong>
+                                <small class="trend-up">Live workspace</small>
+                            </div>
+                        </article>
+                        <article class="kpi-card">
+                            <span class="kpi-icon">T</span>
+                            <div>
+                                <span>Active Assignments</span>
+                                <strong>0</strong>
+                                <small class="trend-up">Open execution work</small>
+                            </div>
+                        </article>
+                        <article class="kpi-card">
+                            <span class="kpi-icon">%</span>
+                            <div>
+                                <span>Completion Rate</span>
+                                <strong>0%</strong>
+                                <small class="trend-up">Completed delivery work</small>
+                            </div>
+                        </article>
+                        <article class="kpi-card">
+                            <span class="kpi-icon">H</span>
+                            <div>
+                                <span>Avg. Project Score</span>
+                                <strong>0</strong>
+                                <small class="trend-up">Health score</small>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="project-command-header panel-card" data-view-section="projects">
+                        <div>
+                            <span class="section-kicker">Project Command Center</span>
+                            <h2>Current project health</h2>
+                            <p>Track active work, delivery risk, workload, and task progress from one manager-focused view.</p>
+                        </div>
+                    </section>
+
+                    <section class="panel-card project-command-panel" data-view-section="dashboard projects">
+                        <div class="panel-heading">
+                            <div>
+                                <span class="section-kicker">Command Center</span>
+                                <h2>Active Projects</h2>
+                                <p class="panel-subtitle">Click a project to inspect team load, risks, and execution details.</p>
+                            </div>
+                            <button class="ghost-action small" id="refreshWorkspace" type="button">Refresh</button>
+                        </div>
+                        <div id="projectCards" class="project-command-grid"></div>
+                    </section>
+
+                    <section class="hero-project-grid" data-view-section="planner assignment">
+                        <article class="assignment-hero" data-view-section="planner assignment">
+                            <div>
+                                <span class="purple-label">AI-powered assignment</span>
+                                <h2>Smart resource matching</h2>
+                                <p>Our AI engine explains deterministic matches across skills, availability, performance, and project needs.</p>
+                            </div>
+                            <div class="bot-orbit" aria-hidden="true">
+                                <span class="bot-face">o o</span>
+                            </div>
+
+                            <form id="projectForm" class="hero-assignment-form">
+                                <input type="text" name="project_name" required placeholder="Project name">
+                                <input type="text" name="technology_preferences" placeholder="Python, Flask, JavaScript">
+                                <div class="hero-form-row">
+                                    <input type="text" name="duration" placeholder="6 weeks">
+                                    <input type="number" name="team_size" min="1" max="20" value="5">
+                                </div>
+                                <textarea name="description" rows="3" placeholder="Describe the project requirements"></textarea>
+                                <details class="role-details">
+                                    <summary>Preferred roles</summary>
+                                    <div class="role-grid">
+                                        {% for role in preferred_roles %}
+                                        <label>
+                                            <input type="checkbox" name="preferred_roles" value="{{ role }}">
+                                            <span>{{ role }}</span>
+                                        </label>
+                                        {% endfor %}
+                                    </div>
+                                </details>
+                                <button type="submit" class="dark-cta" id="generateBtn">Generate Smart Assignment *</button>
+                                <button type="button" class="ghost-action" id="createProjectBtn">Save as execution project</button>
+                            </form>
+
+                            <div class="hero-checks">
+                                <span>* Skills match</span>
+                                <span>* Availability</span>
+                                <span>* Performance</span>
+                                <span>* Risk analysis</span>
+                            </div>
+                        </article>
+
+                        <article class="panel-card active-projects-panel" data-view-section="planner assignment">
+                            <div class="panel-heading">
+                                <h2>Execution Projects</h2>
+                            </div>
+                            <p class="panel-subtitle">Use Dashboard or Projects to open the project command drawer.</p>
+                        </article>
+                    </section>
+
+                    <section class="panel-card kanban-panel" data-view-section="projects tasks">
+                        <div class="panel-heading">
+                            <h2>Kanban Board</h2>
+                            <div class="board-actions">
+                                <button class="ghost-action small" id="generateSprintBtn" type="button">Generate sprint</button>
+                                <button class="ghost-action small" id="analyzeRisksBtn" type="button">Analyze risks</button>
+                            </div>
+                        </div>
+                        <div id="kanbanBoard" class="kanban-board"></div>
+                    </section>
+
+                    <section class="panel-card report-panel" data-view-section="reports assignment">
+                        <div class="panel-heading">
+                            <h2>Assignment Report</h2>
+                            <div class="report-actions">
+                                <button type="button" class="ghost-action small" id="copyReport">Copy</button>
+                                <a class="ghost-action small" href="/export/pdf">PDF</a>
+                                <a class="ghost-action small" href="/export/csv">CSV</a>
+                            </div>
+                        </div>
+                        <div class="loading-state hidden" id="loadingState"><span></span>Generating assignment...</div>
+                        <div class="form-message" id="dashboardMessage"></div>
+                        <div class="report-tabs" role="tablist">
+                            <button class="tab is-active" data-tab="team">Team</button>
+                            <button class="tab" data-tab="scores">Scores</button>
+                            <button class="tab" data-tab="structure">Structure</button>
+                            <button class="tab" data-tab="stack">Stack</button>
+                            <button class="tab" data-tab="timeline">Timeline</button>
+                            <button class="tab" data-tab="risks">Risks</button>
+                            <button class="tab" data-tab="recommendations">Recommendations</button>
+                        </div>
+                        <div id="resultContent" class="result-content">
+                            <div class="empty-state">
+                                <strong>No assignment generated</strong>
+                                <span>Import employees, complete the brief, then run the assignment engine.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="platform-tools-grid" data-view-group>
+                        <article class="panel-card" data-view-section="roster">
+                            <div class="panel-heading">
+                                <h2>Roster Import</h2>
+                            </div>
+                            <form id="uploadForm" class="stacked-form">
+                                <input type="file" name="file" accept=".csv" required>
+                                <button type="submit" class="green-cta">Upload CSV</button>
+                            </form>
+                            <div id="uploadSummary" class="upload-summary"></div>
+                        </article>
+
+                        <article class="panel-card" data-view-section="tasks">
+                            <div class="panel-heading">
+                                <h2>Task Management</h2>
+                            </div>
+                            <form id="taskForm" class="stacked-form">
+                                <input type="text" name="title" placeholder="Task title" required>
+                                <textarea name="description" rows="3" placeholder="Description"></textarea>
+                                <select name="assignee_employee_id" id="taskAssignee"><option value="">Unassigned</option></select>
+                                <div class="form-split">
+                                    <select name="priority"><option>Medium</option><option>Low</option><option>High</option><option>Critical</option></select>
+                                    <select name="status"><option>To Do</option><option>In Progress</option><option>Review</option><option>Blocked</option><option>Completed</option></select>
+                                </div>
+                                <div class="form-split">
+                                    <input type="date" name="due_date">
+                                    <input type="number" name="estimated_hours" min="0" step="0.5" value="8">
+                                </div>
+                                <div class="form-split">
+                                    <input type="number" name="story_points" min="1" max="40" value="3">
+                                    <input type="text" name="dependencies" placeholder="Dependencies">
+                                </div>
+                                <button type="submit" class="green-cta">Create task</button>
+                            </form>
+                        </article>
+
+                        <article class="panel-card" data-view-section="planner ai-insights">
+                            <div class="panel-heading">
+                                <h2>AI Task Breakdown</h2>
+                            </div>
+                            <form id="breakdownForm" class="stacked-form">
+                                <textarea name="requirements" rows="4" placeholder="Build employee self-service portal"></textarea>
+                                <button type="submit" class="ghost-action">Generate tasks</button>
+                            </form>
+                            <div id="breakdownList" class="approval-list"></div>
+                        </article>
+
+                        <article class="panel-card" data-view-section="talent roles-skills">
+                            <div class="panel-heading">
+                                <h2>Talent Explorer</h2>
+                            </div>
+                            <div class="filter-bar">
+                                <input type="search" id="searchEmployee" placeholder="Search employee">
+                                <select id="roleFilter">
+                                    <option value="">All roles</option>
+                                    {% for role in employee_roles %}
+                                    <option value="{{ role }}">{{ role }}</option>
+                                    {% endfor %}
+                                </select>
+                                <select id="availabilityFilter">
+                                    <option value="">All availability</option>
+                                    <option value="Available">Available</option>
+                                    <option value="Busy">Busy</option>
+                                </select>
+                                <select id="sortFilter">
+                                    <option value="performance_desc">Performance high to low</option>
+                                    <option value="performance_asc">Performance low to high</option>
+                                    <option value="experience_desc">Experience high to low</option>
+                                    <option value="experience_asc">Experience low to high</option>
+                                    <option value="name_asc">Name A to Z</option>
+                                </select>
+                                <button class="ghost-action small" id="refreshEmployees" type="button">Refresh</button>
+                            </div>
+                            <div id="employeeCards" class="talent-grid"></div>
+                        </article>
+                    </section>
+
+                    <section class="platform-tools-grid" data-view-group>
+                        <article class="panel-card" data-view-section="team-settings projects">
+                            <h2>Collaboration</h2>
+                            <form id="commentForm" class="stacked-form">
+                                <textarea name="body" rows="3" placeholder="Mention teammates with @name"></textarea>
+                                <button type="submit" class="ghost-action">Post comment</button>
+                            </form>
+                            <div id="commentList" class="comment-list"></div>
+                            <div id="activityTimeline" class="timeline-list"></div>
+                        </article>
+
+                        <article class="panel-card" data-view-section="projects team-settings">
+                            <h2>Documents</h2>
+                            <form id="fileForm" class="stacked-form" enctype="multipart/form-data">
+                                <input type="file" name="file" accept=".pdf,.docx,.xlsx,.png,.jpg,.jpeg" required>
+                                <button type="submit" class="ghost-action">Upload document</button>
+                            </form>
+                            <input type="search" id="fileSearch" placeholder="Search documents">
+                            <div id="fileList" class="file-list"></div>
+                        </article>
+
+                        <article class="panel-card assistant-wide" data-view-section="ai-insights team-settings">
+                            <h2>AI Project Assistant</h2>
+                            <form id="assistantForm" class="assistant-form">
+                                <input type="text" name="message" placeholder="Which tasks are delayed and who is overloaded?" required>
+                                <button type="submit" class="green-cta">Ask assistant</button>
+                            </form>
+                            <div id="assistantResponse" class="assistant-response"></div>
+                        </article>
+                    </section>
+                </div>
+
+                <aside class="right-insights" data-view-section="dashboard ai-insights risk-analyzer preferences">
+                    <section class="panel-card" data-view-section="dashboard ai-insights risk-analyzer">
+                        <div class="panel-heading">
+                            <h2>AI Insights</h2>
+                            <button class="text-button" type="button">View all -&gt;</button>
+                        </div>
+                        <div id="riskPanel" class="insight-stack"></div>
+                        <div id="forecastPanel" class="forecast-panel"></div>
+                    </section>
+
+                    <section class="panel-card" data-view-section="talent roles-skills">
+                        <div class="panel-heading">
+                            <h2>Top Candidates</h2>
+                            <button class="text-button" type="button">View all -&gt;</button>
+                        </div>
+                        <div class="candidate-list">
+                            <article><span class="avatar-img">LP</span><div><strong>Liam Patel</strong><small>AI Engineer</small></div><b>98%</b></article>
+                            <article><span class="avatar-img">SK</span><div><strong>Shreya Kulkarni</strong><small>Project Manager</small></div><b>95%</b></article>
+                            <article><span class="avatar-img">AR</span><div><strong>Asha Rao</strong><small>Python Developer</small></div><b>93%</b></article>
+                            <article><span class="avatar-img">OP</span><div><strong>Om Prakash</strong><small>DevOps Engineer</small></div><b>91%</b></article>
+                        </div>
+                    </section>
+
+                    <section class="panel-card" data-view-section="dashboard projects tasks">
+                        <div class="panel-heading">
+                            <h2>Team Utilization</h2>
+                        </div>
+                        <div class="donut-wrap">
+                            <div class="donut" id="teamUtilizationDonut">0%</div>
+                            <div id="workloadPanel" class="workload-list mini-workload"></div>
+                        </div>
+                    </section>
+
+                    <section class="panel-card" data-view-section="preferences">
+                        <div class="panel-heading">
+                            <h2>Notifications</h2>
+                            <button class="text-button" id="markNotificationsRead" type="button">Mark read</button>
+                        </div>
+                        <select id="notificationFilter">
+                            <option value="all">All</option>
+                            <option value="unread">Unread</option>
+                            <option value="read">Read</option>
+                        </select>
+                        <div id="notificationList" class="notification-list"></div>
+                    </section>
+                </aside>
+            </section>
+        </main>
+    </div>
+
+    <div class="drawer-backdrop" id="projectDrawerBackdrop" aria-hidden="true"></div>
+    <aside class="project-drawer" id="projectDrawer" aria-hidden="true" aria-label="Project details">
+        <div class="drawer-shell">
+            <header class="drawer-header">
+                <div>
+                    <span class="section-kicker">Project details</span>
+                    <h2 id="projectDrawerTitle">Project overview</h2>
+                </div>
+                <button class="drawer-close" id="closeProjectDrawer" type="button" aria-label="Close project details">x</button>
+            </header>
+            <div id="projectDrawerContent" class="project-drawer-content">
+                <div class="loading">Select a project to inspect execution health.</div>
+            </div>
+        </div>
+    </aside>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+employee_id,name,skills,experience,role,availability,performance_score
+EMP001,Asha Rao,"Python, Flask, SQLite, APIs",5,Python Developer,Available,91
+EMP002,Noah Kim,"JavaScript, HTML, CSS, React",4,Frontend Developer,Available,87
+EMP003,Maya Singh,"AWS, Docker, CI/CD, Terraform",6,DevOps Engineer,Busy,84
+EMP004,Liam Patel,"Python, ML, NLP, LLMs",7,AI Engineer,Available,93
+EMP005,Sofia Chen,"SQL, dashboards, analytics",3,Data Analyst,Available,82

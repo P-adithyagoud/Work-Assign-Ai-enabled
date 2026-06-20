@@ -2,35 +2,37 @@ import os
 from flask import Flask, redirect, url_for
 from dotenv import load_dotenv
 
+from config import Config
+from app.database import close_db, init_db
+
+
 def create_app(test_config=None):
     """Create and configure the Flask application."""
-    # Load environment variables
     load_dotenv()
-    
+
     app = Flask(__name__, instance_relative_config=True)
-    
-    # Default configuration
-    app.config.from_mapping(
-        SECRET_KEY=os.getenv('SECRET_KEY', 'dev-secret-key-placeholder'),
-        DATABASE=os.path.join(app.instance_path, 'projectassign.db'),
-    )
+    app.config.from_object(Config)
 
     if test_config is not None:
-        # Load test config if passed in
         app.config.from_mapping(test_config)
-    
-    # Ensure the instance folder exists
+
+    # Ensure the instance folder and uploads folder exist
     try:
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    try:
+        os.makedirs(app.config["UPLOAD_FOLDER"])
+    except OSError:
+        pass
 
     # Initialize Database
-    from . import database
-    database.init_app(app)
-    
+    app.teardown_appcontext(close_db)
+    with app.app_context():
+        init_db()
+
     # Register custom template filters
-    @app.template_filter('percentage')
+    @app.template_filter("percentage")
     def percentage_filter(value):
         if value is None:
             return "0%"
@@ -39,7 +41,7 @@ def create_app(test_config=None):
         except (ValueError, TypeError):
             return str(value)
 
-    @app.template_filter('score_color')
+    @app.template_filter("score_color")
     def score_color_filter(score):
         """Returns a class name for the score based on its value."""
         try:
@@ -53,32 +55,20 @@ def create_app(test_config=None):
         except (ValueError, TypeError):
             return "text-muted"
 
-    # Register Blueprints
-    from .auth.routes import bp as auth_bp
+    # Register Blueprints from app.routes
+    from app.routes.auth import auth_bp
+    from app.routes.employee import employee_bp
+    from app.routes.project import project_bp
+    from app.routes.execution import execution_bp
+
     app.register_blueprint(auth_bp)
-
-    from .dashboard.routes import bp as dashboard_bp
-    app.register_blueprint(dashboard_bp)
-
-    from .employees.routes import bp as employees_bp
-    app.register_blueprint(employees_bp)
-
-    from .projects.routes import bp as projects_bp
-    app.register_blueprint(projects_bp)
-
-    # Register API Blueprints
-    from .api_routes.projects import bp as api_projects_bp
-    app.register_blueprint(api_projects_bp)
-    
-    from .api_routes.tasks import bp as api_tasks_bp
-    app.register_blueprint(api_tasks_bp)
-    
-    from .api_routes.insights import bp as api_insights_bp
-    app.register_blueprint(api_insights_bp)
+    app.register_blueprint(employee_bp)
+    app.register_blueprint(project_bp)
+    app.register_blueprint(execution_bp)
 
     # Global Redirect from Root to Dashboard
-    @app.route('/')
+    @app.route("/")
     def index():
-        return redirect(url_for('dashboard.index'))
+        return redirect(url_for("project.dashboard"))
 
     return app

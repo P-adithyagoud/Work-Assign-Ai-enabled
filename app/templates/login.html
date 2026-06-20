@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | ProjectAssign</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="auth-page">
+    <main class="auth-layout">
+        <section class="auth-brand-panel">
+            <a class="brand-system" href="{{ url_for('auth.login_page') }}">
+                <span class="brand-glyph">PA</span>
+                <span>
+                    <strong>ProjectAssign</strong>
+                    <small>Resource intelligence</small>
+                </span>
+            </a>
+            <div>
+                <span class="section-label">SaaS workforce planning</span>
+                <h1>Score-fit your project team before kickoff.</h1>
+                <p>Deterministic employee selection with AI-generated planning context for managers who need audit-ready staffing decisions.</p>
+            </div>
+            <div class="auth-proof">
+                <div><strong>40%</strong><span>Skills match</span></div>
+                <div><strong>25%</strong><span>Role fit</span></div>
+                <div><strong>20%</strong><span>Performance</span></div>
+            </div>
+        </section>
+
+        <section class="auth-card">
+            <span class="section-label">Welcome back</span>
+            <h2>Sign in to command center</h2>
+            <form id="loginForm" class="auth-form">
+                <label class="field">
+                    <span>Email</span>
+                    <input type="email" name="email" autocomplete="email" required>
+                </label>
+                <label class="field">
+                    <span>Password</span>
+                    <input type="password" name="password" autocomplete="current-password" required>
+                </label>
+                <button type="submit" class="primary-action">Login</button>
+                <div class="form-message" id="authMessage"></div>
+            </form>
+            <p class="auth-switch">No account yet? <a href="{{ url_for('auth.signup_page') }}">Create one</a></p>
+        </section>
+    </main>
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</body>
+</html>
