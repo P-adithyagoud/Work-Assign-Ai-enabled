@@ -2,5 +2,6 @@ Flask==3.0.3
 Werkzeug==3.0.3
 reportlab==4.2.2
 python-dotenv==1.0.1
+psycopg2-binary==2.9.9
 supabase>=2.4.3
 postgrest>=0.10.0
