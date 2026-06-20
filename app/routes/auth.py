@@ -1,4 +1,13 @@
-import sqlite3
+try:
+    import psycopg2
+    _IntegrityError = (psycopg2.IntegrityError,)
+except ImportError:
+    _IntegrityError = ()
+try:
+    import sqlite3
+    _IntegrityError = _IntegrityError + (sqlite3.IntegrityError,)
+except ImportError:
+    pass
 from functools import wraps
 
 from flask import Blueprint, redirect, render_template, request, session, url_for
@@ -60,8 +69,11 @@ def signup():
 
     try:
         user_id = create_user(name, email, password, role)
-    except sqlite3.IntegrityError:
-        return {"ok": False, "errors": ["An account with this email already exists."]}, 409
+    except Exception as e:
+        err_str = str(e).lower()
+        if "unique" in err_str or "duplicate" in err_str or "already exists" in err_str:
+            return {"ok": False, "errors": ["An account with this email already exists."]}, 409
+        return {"ok": False, "errors": ["An unexpected error occurred. Please try again."]}, 500
 
     session.clear()
     session["user_id"] = user_id

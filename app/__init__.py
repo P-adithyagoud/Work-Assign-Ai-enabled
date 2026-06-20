@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, url_for
+from flask import Flask, jsonify, redirect, url_for
 from dotenv import load_dotenv
 
 from config import Config
@@ -73,5 +73,15 @@ def create_app(test_config=None):
     @app.route("/")
     def index():
         return redirect(url_for("project.dashboard"))
+
+    # Global JSON error handler so API fetch calls never receive HTML on crash
+    @app.errorhandler(500)
+    def internal_error(e):
+        app.logger.error(f"Internal server error: {e}")
+        return jsonify({"ok": False, "error": "Internal server error. Please try again."}), 500
+
+    @app.errorhandler(404)
+    def not_found(e):
+        return jsonify({"ok": False, "error": "Not found."}), 404
 
     return app
