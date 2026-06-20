@@ -87,8 +87,18 @@ def get_db():
         is_postgres = db_url.startswith('postgresql://') or db_url.startswith('postgres://')
         
         if is_postgres:
-            conn = psycopg2.connect(db_url)
-            g.db = PostgresConnectionWrapper(conn)
+            # Supabase requires SSL — append sslmode=require if not already present
+            if 'sslmode' not in db_url:
+                sep = '&' if '?' in db_url else '?'
+                db_url = db_url + sep + 'sslmode=require'
+            try:
+                conn = psycopg2.connect(db_url)
+                conn.autocommit = False
+                g.db = PostgresConnectionWrapper(conn)
+                current_app.logger.info("Connected to Supabase PostgreSQL successfully.")
+            except Exception as e:
+                current_app.logger.error(f"PostgreSQL connection failed: {e}")
+                raise
         else:
             g.db = sqlite3.connect(db_url)
             g.db.row_factory = sqlite3.Row

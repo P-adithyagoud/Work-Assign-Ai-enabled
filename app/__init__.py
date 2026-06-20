@@ -74,6 +74,18 @@ def create_app(test_config=None):
     def index():
         return redirect(url_for("project.dashboard"))
 
+    @app.route("/health")
+    def health():
+        from app.database import get_db
+        import os
+        try:
+            db = get_db()
+            db.execute("SELECT 1")
+            db_type = "postgresql" if "postgresql" in app.config["DATABASE"] or "postgres" in app.config["DATABASE"] else "sqlite"
+            return jsonify({"ok": True, "db": db_type, "DATABASE_URL_SET": bool(os.getenv("DATABASE_URL"))}), 200
+        except Exception as e:
+            return jsonify({"ok": False, "error": str(e), "DATABASE_URL_SET": bool(os.getenv("DATABASE_URL"))}), 500
+
     # Global JSON error handler so API fetch calls never receive HTML on crash
     @app.errorhandler(500)
     def internal_error(e):
